@@ -1,103 +1,183 @@
-import Image from "next/image";
+// 'use client';
+
+// import Hero from '../components/Hero';
+// import ServiceCard from '../components/ServiceCard';
+// import { motion } from 'framer-motion';
+// import Image from 'next/image';
+
+// export default function Home() {
+//   const services = [
+//     {
+//       title: 'Custom Web Solutions',
+//       description: 'We design and develop websites tailored to your specific requirements using cutting-edge technologies.',
+//       gradient: 'from-blue-500 via-purple-600 to-pink-500',
+//     },
+//     {
+//       title: 'Mobile-Friendly Design',
+//       description: 'Our websites are optimized for seamless user experiences across all devices.',
+//       gradient: 'from-green-500 via-yellow-500 to-red-500',
+//     },
+//     {
+//       title: 'E-commerce Integration',
+//       description: 'Robust e-commerce solutions with secure payment gateways and efficient inventory management.',
+//       gradient: 'from-pink-500 via-yellow-500 to-teal-500',
+//     },
+//   ];
+
+//   return (
+//     <div className="min-h-screen flex flex-col">
+//       <Hero />
+//       <section className="py-16 px-4 sm:px-8 bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-600">
+//         <motion.div
+//           initial={{ opacity: 0, y: 20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.8 }}
+//           className="container mx-auto text-center"
+//         >
+//           <h2 className="text-4xl font-bold mb-4">Our Specialization</h2>
+//           <p className="text-xl mb-8">We build scalable, responsive, and high-performance websites.</p>
+//           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//             {services.map((service, index) => (
+//               <ServiceCard key={index} {...service} />
+//             ))}
+//           </div>
+//         </motion.div>
+//       </section>
+//       <section className="py-16 px-4 sm:px-8 text-center">
+//         <motion.div
+//           initial={{ opacity: 0, y: 20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.8, delay: 0.2 }}
+//         >
+//           <h3 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+//             Ready to Elevate Your Business?
+//           </h3>
+//           <p className="text-lg mt-4 animate-pulse">Take the first step towards growth and innovation today.</p>
+//           <a
+//             href="/services"
+//             className="mt-6 inline-block bg-gradient-to-r from-orange-400 to-yellow-500 text-white py-3 px-6 rounded-full text-lg hover:from-yellow-500 hover:to-orange-600 transition-all"
+//           >
+//             Get Your Custom Solution
+//           </a>
+//         </motion.div>
+//       </section>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'use client';
+
+import Hero from '../components/Hero';
+import ServiceCard from '../components/ServiceCard';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isDarkTheme, setIsDarkTheme] = useState(true); // Sync with layout state
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+  // Sync with layout.tsx theme state (simulated; use context in a real app)
+  useEffect(() => {
+    const bodyClass = document.body.className;
+    setIsDarkTheme(bodyClass.includes('bg-gray-900'));
+  }, []);
+
+  const services = [
+    {
+      title: 'Custom Web Solutions',
+      description: 'We design and develop websites tailored to your specific requirements using cutting-edge technologies.',
+      gradient: 'from-blue-500 via-purple-600 to-pink-500',
+    },
+    {
+      title: 'Mobile-Friendly Design',
+      description: 'Our websites are optimized for seamless user experiences across all devices.',
+      gradient: 'from-green-500 via-yellow-500 to-red-500',
+    },
+    {
+      title: 'E-commerce Integration',
+      description: 'Robust e-commerce solutions with secure payment gateways and efficient inventory management.',
+      gradient: 'from-pink-500 via-yellow-500 to-teal-500',
+    },
+  ];
+
+  return (
+    <div
+      className={`min-h-screen flex flex-col transition-all duration-300 ${
+        isDarkTheme
+          ? 'bg-gradient-to-r from-teal-900 via-cyan-900 to-blue-900 text-white'
+          : 'bg-gradient-to-r from-teal-200 via-cyan-200 to-blue-200 text-gray-900'
+      }`}
+    >
+      <Hero />
+      <section
+        className={`py-16 px-4 sm:px-8 transition-all duration-300 ${
+          isDarkTheme
+            ? 'bg-gradient-to-r from-teal-900 via-cyan-900 to-blue-900'
+            : 'bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-300'
+        }`}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="container mx-auto text-center"
+        >
+          <h2 className="text-4xl font-bold mb-4">Our Specialization</h2>
+          <p className="text-xl mb-8">We build scalable, responsive, and high-performance websites.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <ServiceCard key={index} {...service} isDarkTheme={isDarkTheme} />
+            ))}
+          </div>
+        </motion.div>
+      </section>
+      <section
+        className={`py-16 px-4 sm:px-8 text-center transition-all duration-300 ${
+          isDarkTheme ? 'text-white' : 'text-gray-900'
+        }`}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h3 className={`text-4xl font-bold bg-clip-text text-transparent ${
+            isDarkTheme
+              ? 'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500'
+              : 'bg-gradient-to-r from-pink-300 via-red-300 to-yellow-300'
+          }`}>
+            Ready to Elevate Your Business?
+          </h3>
+          <p className="text-lg mt-4 animate-pulse">Take the first step towards growth and innovation today.</p>
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/services"
+            className={`mt-6 inline-block py-3 px-6 rounded-full text-lg transition-all ${
+              isDarkTheme
+                ? 'bg-gradient-to-r from-orange-700 to-yellow-700 text-white hover:from-yellow-800 hover:to-orange-800'
+                : 'bg-gradient-to-r from-orange-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-orange-500'
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            Get Your Custom Solution
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </motion.div>
+      </section>
     </div>
   );
 }
