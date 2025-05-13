@@ -1,37 +1,4 @@
 
-
-// 'use client';
-
-// import { ReactNode, useState } from 'react';
-// import Navbar from './Navbar';
-
-// interface ThemeWrapperProps {
-//   children: ReactNode;
-// }
-
-// export default function ThemeWrapper({ children }: ThemeWrapperProps) {
-//   const [isDarkTheme, setIsDarkTheme] = useState(true);
-
-//   return (
-//     <>
-//       <Navbar isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
-//       <div className={isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}>
-//         {children}
-//       </div>
-//     </>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
 'use client';
 
 import { ReactNode, useEffect } from 'react';
