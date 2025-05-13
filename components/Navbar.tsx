@@ -8,12 +8,7 @@
 // import { motion, AnimatePresence } from 'framer-motion';
 // import * as THREE from 'three';
 
-// interface NavbarProps {
-//   isDarkTheme: boolean;
-//   setIsDarkTheme: (value: boolean) => void;
-// }
-
-// export default function Navbar({ isDarkTheme, setIsDarkTheme }: NavbarProps) {
+// export default function Navbar() {
 //   const [isOpen, setIsOpen] = useState(false);
 //   const [isServicesOpen, setIsServicesOpen] = useState(false);
 //   const [openedByClick, setOpenedByClick] = useState(false);
@@ -50,7 +45,7 @@
 //     // Materials
 //     const particlesMaterial = new THREE.PointsMaterial({
 //       size: 0.005,
-//       color: isDarkTheme ? 0x00ffaa : 0x0066cc,
+//       color: 0x0066cc, // Removed theme-based color
 //     });
     
 //     // Mesh
@@ -105,7 +100,7 @@
 //       particlesMaterial.dispose();
 //       renderer.dispose();
 //     };
-//   }, [isDarkTheme]);
+//   }, []);
 
 //   const navItems = [
 //     { name: 'Home', href: '/' },
@@ -154,11 +149,7 @@
 //         className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none"
 //       />
       
-//       <header
-//         className={`${
-//           isDarkTheme ? 'bg-gray-900 bg-opacity-80 text-white' : 'bg-white bg-opacity-80 text-gray-900'
-//         } py-4 fixed top-0 w-full z-20 shadow-md transition-all duration-300 backdrop-blur-sm`}
-//       >
+//       <header className="py-4 fixed top-0 w-full z-20 shadow-md transition-all duration-300 backdrop-blur-sm">
 //         <nav className="container mx-auto flex justify-between items-center px-4">
 //           <div className="flex items-center">
 //             <Image src="/images/logo.png" alt="SniperCoders Technologies" width={40} height={40} className="mr-2" />
@@ -170,9 +161,7 @@
 //                 <div className="flex items-center">
 //                   <Link
 //                     href={item.href}
-//                     className={`${
-//                       isDarkTheme ? 'text-white' : 'text-gray-900'
-//                     } uppercase px-3 py-2 hover:text-teal-300 transition-all`}
+//                     className="uppercase px-3 py-2 hover:text-teal-300 transition-all"
 //                     onMouseEnter={() => item.hasDropdown && handleServiceHover()}
 //                     onMouseLeave={() => item.hasDropdown && handleServiceLeave()}
 //                   >
@@ -181,9 +170,7 @@
 //                   {item.hasDropdown && (
 //                     <button
 //                       onClick={handleArrowClick}
-//                       className={`${
-//                         isDarkTheme ? 'text-white' : 'text-gray-900'
-//                       } hover:text-teal-300 transition-all ml-1 focus:outline-none`}
+//                       className="hover:text-teal-300 transition-all ml-1 focus:outline-none"
 //                       aria-label="Toggle services dropdown"
 //                     >
 //                       <svg
@@ -209,11 +196,7 @@
 //                       initial="hidden"
 //                       animate="visible"
 //                       exit="exit"
-//                       className={`${
-//                         isDarkTheme ? 'bg-gray-900' : 'bg-white'
-//                       } absolute left-0 mt-2 w-64 rounded-lg shadow-lg py-2 ${
-//                         isDarkTheme ? 'text-white' : 'text-gray-900'
-//                       } z-30`}
+//                       className="absolute left-0 mt-2 w-64 rounded-lg shadow-lg py-2 z-30"
 //                       onMouseEnter={handleServiceHover}
 //                       onMouseLeave={handleServiceLeave}
 //                     >
@@ -221,9 +204,7 @@
 //                         <li key={service.name}>
 //                           <Link
 //                             href={service.href}
-//                             className={`${
-//                               isDarkTheme ? 'text-white' : 'text-gray-900'
-//                             } block px-4 py-2 hover:bg-teal-700 hover:text-white transition-all`}
+//                             className="block px-4 py-2 hover:bg-teal-700 hover:text-white transition-all"
 //                             onClick={() => {
 //                               setIsServicesOpen(false);
 //                               setOpenedByClick(false);
@@ -249,7 +230,7 @@
 //               fill="none"
 //               viewBox="0 0 24 24"
 //               stroke="currentColor"
-//               className={`w-6 h-6 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}
+//               className="w-6 h-6"
 //             >
 //               <path
 //                 strokeLinecap="round"
@@ -266,78 +247,18 @@
 //               initial={{ opacity: 0, y: -20 }}
 //               animate={{ opacity: 1, y: 0 }}
 //               exit={{ opacity: 0, y: -20 }}
-//               className={`${
-//                 isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
-//               } md:hidden absolute top-16 left-0 w-full z-10 shadow-md`}
+//               className="absolute top-16 left-0 w-full bg-white shadow-lg z-40"
 //             >
-//               <ul className="flex flex-col items-center space-y-4 py-4">
+//               <ul className="flex flex-col items-center py-4 space-y-4">
 //                 {navItems.map((item) => (
-//                   <li key={item.name} className="w-full text-center">
-//                     <div className="relative">
-//                       <div className="flex items-center justify-center">
-//                         <Link
-//                           href={item.href}
-//                           className={`${
-//                             isDarkTheme ? 'text-white' : 'text-gray-900'
-//                           } uppercase px-3 py-2 hover:text-teal-300 transition-all`}
-//                           onClick={() => setIsOpen(false)}
-//                         >
-//                           {item.name}
-//                         </Link>
-//                         {item.hasDropdown && (
-//                           <button
-//                             onClick={handleArrowClick}
-//                             className={`${
-//                               isDarkTheme ? 'text-white' : 'text-gray-900'
-//                             } hover:text-teal-300 transition-all ml-1 focus:outline-none`}
-//                             aria-label="Toggle services dropdown"
-//                           >
-//                             <svg
-//                               xmlns="http://www.w3.org/2000/svg"
-//                               className="h-5 w-5"
-//                               viewBox="0 0 20 20"
-//                               fill="currentColor"
-//                               style={{ transform: isServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
-//                             >
-//                               <path
-//                                 fillRule="evenodd"
-//                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-//                                 clipRule="evenodd"
-//                               />
-//                             </svg>
-//                           </button>
-//                         )}
-//                       </div>
-//                       {item.hasDropdown && isServicesOpen && (
-//                         <motion.ul
-//                           variants={dropdownVariants}
-//                           initial="hidden"
-//                           animate="visible"
-//                           exit="exit"
-//                           className={`${
-//                             isDarkTheme ? 'bg-gray-900' : 'bg-white'
-//                           } w-full py-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}
-//                         >
-//                           {serviceItems.map((service) => (
-//                             <li key={service.name}>
-//                               <Link
-//                                 href={service.href}
-//                                 className={`${
-//                                   isDarkTheme ? 'text-white' : 'text-gray-900'
-//                                 } block px-4 py-2 hover:bg-teal-700 hover:text-white transition-all`}
-//                                 onClick={() => {
-//                                   setIsOpen(false);
-//                                   setIsServicesOpen(false);
-//                                   setOpenedByClick(false);
-//                                 }}
-//                               >
-//                                 {service.name}
-//                               </Link>
-//                             </li>
-//                           ))}
-//                         </motion.ul>
-//                       )}
-//                     </div>
+//                   <li key={item.name}>
+//                     <Link
+//                       href={item.href}
+//                       className="uppercase px-6 py-2 hover:text-teal-300"
+//                       onClick={() => setIsOpen(false)}
+//                     >
+//                       {item.name}
+//                     </Link>
 //                   </li>
 //                 ))}
 //               </ul>
@@ -375,7 +296,36 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [openedByClick, setOpenedByClick] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsServicesOpen(false);
+        setOpenedByClick(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   
   // Three.js background animation setup
   useEffect(() => {
@@ -405,10 +355,12 @@ export default function Navbar() {
     
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
     
-    // Materials
+    // Materials - Brighter color for better visibility on dark backgrounds
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.005,
-      color: 0x0066cc, // Removed theme-based color
+      size: 0.008,
+      color: 0x00ffff, // Brighter teal color for better visibility
+      transparent: true,
+      opacity: 0.8,
     });
     
     // Mesh
@@ -488,19 +440,20 @@ export default function Navbar() {
     exit: { opacity: 0, y: -10, transition: { duration: 0.2, ease: 'easeInOut' } },
   };
 
-  const handleArrowClick = () => {
+  const handleArrowClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsServicesOpen(!isServicesOpen);
-    setOpenedByClick(!isServicesOpen); // Track if opened by click
+    setOpenedByClick(!isServicesOpen);
   };
 
   const handleServiceHover = () => {
     setIsServicesOpen(true);
-    setOpenedByClick(false); // Hover overrides click state
+    setOpenedByClick(false);
   };
 
   const handleServiceLeave = () => {
     if (!openedByClick) {
-      setIsServicesOpen(false); // Close only if not opened by click
+      setIsServicesOpen(false);
     }
   };
 
@@ -512,28 +465,42 @@ export default function Navbar() {
         className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none"
       />
       
-      <header className="py-4 fixed top-0 w-full z-20 shadow-md transition-all duration-300 backdrop-blur-sm">
-        <nav className="container mx-auto flex justify-between items-center px-4">
-          <div className="flex items-center">
-            <Image src="/images/logo.png" alt="SniperCoders Technologies" width={40} height={40} className="mr-2" />
-            <span className="text-lg font-semibold">SniperCoders</span>
+      <header 
+        className={`py-4 fixed top-0 w-full z-20 shadow-md transition-all duration-300 
+                   ${scrolled ? 'bg-black/70' : 'bg-black/40'} backdrop-blur-md`}
+      >
+        <div className="container mx-auto flex justify-between items-center px-4">
+          <div className="flex items-center z-20">
+            <Link href="/" className="flex items-center">
+              <Image 
+                src="/images/logo.png" 
+                alt="SniperCoders Technologies" 
+                width={45} 
+                height={45} 
+                className="mr-3" 
+              />
+              <span className="text-lg font-bold text-white">SniperCoders</span>
+            </Link>
           </div>
-          <div className="hidden md:flex space-x-6 items-center">
+          
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex space-x-6 items-center">
             {navItems.map((item) => (
-              <div key={item.name} className="relative">
-                <div className="flex items-center">
+              <div key={item.name} className="relative" ref={item.hasDropdown ? dropdownRef : undefined}>
+                <div className="flex items-center group">
                   <Link
                     href={item.href}
-                    className="uppercase px-3 py-2 hover:text-teal-300 transition-all"
+                    className="uppercase px-3 py-2 text-white hover:text-teal-300 transition-all font-medium tracking-wide relative"
                     onMouseEnter={() => item.hasDropdown && handleServiceHover()}
                     onMouseLeave={() => item.hasDropdown && handleServiceLeave()}
                   >
                     {item.name}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-300 group-hover:w-full transition-all duration-300"></span>
                   </Link>
                   {item.hasDropdown && (
                     <button
                       onClick={handleArrowClick}
-                      className="hover:text-teal-300 transition-all ml-1 focus:outline-none"
+                      className="text-white hover:text-teal-300 transition-all ml-1 focus:outline-none"
                       aria-label="Toggle services dropdown"
                     >
                       <svg
@@ -554,37 +521,40 @@ export default function Navbar() {
                 </div>
                 {item.hasDropdown && isServicesOpen && (
                   <AnimatePresence>
-                    <motion.ul
+                    <motion.div
                       variants={dropdownVariants}
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      className="absolute left-0 mt-2 w-64 rounded-lg shadow-lg py-2 z-30"
+                      className="absolute left-0 mt-2 w-64 rounded-lg shadow-xl py-2 z-30 bg-black/80 backdrop-blur-lg border border-teal-900/30"
                       onMouseEnter={handleServiceHover}
                       onMouseLeave={handleServiceLeave}
                     >
                       {serviceItems.map((service) => (
-                        <li key={service.name}>
+                        <div key={service.name} className="relative group">
                           <Link
                             href={service.href}
-                            className="block px-4 py-2 hover:bg-teal-700 hover:text-white transition-all"
+                            className="block px-4 py-3 text-white hover:bg-teal-900/50 transition-all relative overflow-hidden"
                             onClick={() => {
                               setIsServicesOpen(false);
                               setOpenedByClick(false);
                             }}
                           >
-                            {service.name}
+                            <span className="relative z-10">{service.name}</span>
+                            <span className="absolute inset-0 w-0 bg-teal-800/40 group-hover:w-full transition-all duration-300 -z-0"></span>
                           </Link>
-                        </li>
+                        </div>
                       ))}
-                    </motion.ul>
+                    </motion.div>
                   </AnimatePresence>
                 )}
               </div>
             ))}
           </div>
+          
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden focus:outline-none"
+            className="lg:hidden focus:outline-none text-white z-30"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle mobile menu"
           >
@@ -593,7 +563,7 @@ export default function Navbar() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -603,28 +573,92 @@ export default function Navbar() {
               />
             </svg>
           </button>
-        </nav>
+        </div>
+        
+        {/* Mobile Navigation */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute top-16 left-0 w-full bg-white shadow-lg z-40"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden w-full bg-black/90 backdrop-blur-md z-40 shadow-lg"
             >
-              <ul className="flex flex-col items-center py-4 space-y-4">
-                {navItems.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="uppercase px-6 py-2 hover:text-teal-300"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div className="container mx-auto px-4 py-2">
+                <ul className="flex flex-col space-y-1">
+                  {navItems.map((item) => (
+                    <li key={item.name} className="border-b border-gray-800/50 last:border-0">
+                      {item.hasDropdown ? (
+                        <>
+                          <div className="flex justify-between items-center py-3">
+                            <Link
+                              href={item.href}
+                              className="uppercase text-white hover:text-teal-300 font-medium w-full"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setIsServicesOpen(!isServicesOpen);
+                              }}
+                              className="text-white p-2 focus:outline-none"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                style={{ transform: isServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                          <AnimatePresence>
+                            {isServicesOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="bg-teal-900/20 rounded-md mb-2"
+                              >
+                                {serviceItems.map((service) => (
+                                  <Link
+                                    key={service.name}
+                                    href={service.href}
+                                    className="block py-3 px-4 text-sm text-white hover:bg-teal-800/30 transition-all"
+                                    onClick={() => {
+                                      setIsOpen(false);
+                                      setIsServicesOpen(false);
+                                    }}
+                                  >
+                                    {service.name}
+                                  </Link>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="block uppercase py-3 text-white hover:text-teal-300 font-medium"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -632,6 +666,9 @@ export default function Navbar() {
     </>
   );
 }
+
+
+
 
 
 

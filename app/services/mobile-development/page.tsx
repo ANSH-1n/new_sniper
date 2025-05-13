@@ -10,7 +10,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Smartphone, RefreshCw, Palette, Settings, Briefcase, LineChart, Shield, Rocket, Edit, BarChart3, Code } from 'lucide-react';
 import CountUp from 'react-countup';
 import * as THREE from 'three';
-import Link from 'next/link';
+
 
 export default  function MobileAppDevelopment() {
   const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
@@ -184,23 +184,7 @@ export default  function MobileAppDevelopment() {
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-20" style={{ opacity: backgroundOpacity.get() }} />
 
       {/* Header */}
-      <header className="container mx-auto p-4 z-10 backdrop-blur-sm bg-slate-900/80 sticky top-0">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="text-2xl font-bold">
-              <Code className="mr-2 inline" size={24} />
-              <span className="bg-gradient-to-r from-purple-500 to-teal-500 bg-clip-text text-transparent">SniperCoders</span>
-            </div>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            {['Services', 'Solutions', 'Portfolio', 'Contact'].map((item) => (
-              <Link key={item} href="#" className="hover:text-purple-400 transition-all duration-300">
-                {item}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </header>
+    
 
       {/* Hero Section */}
       <motion.section

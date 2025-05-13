@@ -962,6 +962,31 @@ export default function Home(): React.ReactElement {
     },
   ];
 
+
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Handle responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+      setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024);
+    };
+    
+    // Set initial values
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+
+
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a2a] text-white overflow-hidden pt-12">
       {/* Three.js container */}
@@ -1021,7 +1046,7 @@ export default function Home(): React.ReactElement {
                 transition={{ duration: 0.8 }}
                 className="relative z-10 p-6 text-center lg:text-left"
               >
-                <div className="pl-8">
+                {/* <div className="pl-8">
                   <div className="flex flex-row">
                     <motion.h1 
                       className="text-8xl font-bold mb-10 pt-10 ml-10 whitespace-nowrap transition-transform duration-200 glowing-text"
@@ -1062,7 +1087,55 @@ export default function Home(): React.ReactElement {
                     impactful digital solutions that drive growth, efficiency,
                     and customer loyalty.
                   </motion.p>
-                </div>
+
+
+                  
+                </div> */}
+
+   <div className="w-full px-4 md:px-8 lg:px-16">
+      <div className="flex flex-col items-center lg:items-start">
+        <h1 
+          className={`font-bold mb-6 pt-6 text-center lg:text-left transition-transform duration-200 
+            ${isMobile ? 'text-4xl' : isTablet ? 'text-6xl' : 'text-8xl'}
+          `}
+          style={{
+            textShadow: '0 0 5px rgba(255,0,255,0.5), 0 0 15px rgba(255,0,255,0.3)',
+            animation: 'glow 5s infinite alternate'
+          }}
+        >
+          SniperCoders
+        </h1>
+        
+        <p className={`text-base md:text-lg lg:text-xl mb-5 text-center lg:text-left max-w-3xl`}>
+                 We craft powerful digital experiences to boost your brand&apos;s
+  visibility and engagement. As a results-driven software
+  agency, we specialize in delivering custom web and mobile
+  applications, scalable backend systems, and seamless user
+  experiences tailored to your business goals. Whether you&apos;re
+  a startup or an enterprise, our team of expert developers,
+  designers, and strategists is here to turn your ideas into
+  impactful digital solutions that drive growth, efficiency,
+  and customer loyalty.
+
+        </p>
+      </div>
+
+      <style jsx>{`
+        @keyframes glow {
+          0% {
+            text-shadow: 0 0 5px rgba(255,0,255,0.5), 0 0 15px rgba(255,0,255,0.3);
+          }
+          50% {
+            text-shadow: 0 0 10px rgba(0,255,255,0.5), 0 0 30px rgba(0,255,255,0.3);
+          }
+          100% {
+            text-shadow: 0 0 5px rgba(255,0,255,0.5), 0 0 15px rgba(255,0,255,0.3);
+          }
+        }
+      `}</style>
+    </div>
+
+
               </motion.div>
             </div>
           </div>

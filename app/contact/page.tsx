@@ -89,30 +89,7 @@ const ContactPage: React.FC = () => {
       </div>
 
       {/* Header */}
-      <header className="container mx-auto py-6 px-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="text-3xl font-bold">
-              <span className="text-blue-500"> SniperCoders </span>
-            </div>
-          </div>
-          <nav>
-            <ul className="flex space-x-4">
-              <li>
-                <a href="#" className="hover:text-blue-400 transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-blue-400 transition-colors">
-                  Contact Us
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-
+   
       {/* Main content */}
       <main className="container mx-auto px-4 py-8">
         {/* Contact Us Header */}
