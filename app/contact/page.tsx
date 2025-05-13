@@ -1,7 +1,10 @@
-// Header.tsx
+
+
+
+// Header.tsx or page.tsx
 
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion"; // Removed useScroll and useTransform
 import React, { useState, useEffect } from "react";
 import { FaPhone, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 import {
@@ -19,13 +22,11 @@ const ContactPage: React.FC = () => {
     message: "",
   });
 
-  // Bubble animation effect
   const [bubbles, setBubbles] = useState<
     Array<{ id: number; x: number; y: number; size: number; speed: number }>
   >([]);
 
   useEffect(() => {
-    // Create random bubbles
     const newBubbles = Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
@@ -35,7 +36,6 @@ const ContactPage: React.FC = () => {
     }));
     setBubbles(newBubbles);
 
-    // Animate bubbles
     const interval = setInterval(() => {
       setBubbles((prev) =>
         prev.map((bubble) => ({
@@ -128,7 +128,7 @@ const ContactPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Contact Information and Form */}
+        {/* Contact Info + Form */}
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column */}
           <div className="w-full lg:w-1/2 bg-gray-800 p-8 rounded-lg">
@@ -182,28 +182,16 @@ const ContactPage: React.FC = () => {
             <div>
               <h3 className="font-bold text-lg mb-4">Follow Us</h3>
               <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="text-pink-500 hover:text-pink-400 transition-colors"
-                >
+                <a href="#" className="text-pink-500 hover:text-pink-400">
                   <AiOutlineInstagram size={24} />
                 </a>
-                <a
-                  href="#"
-                  className="text-blue-500 hover:text-blue-400 transition-colors"
-                >
+                <a href="#" className="text-blue-500 hover:text-blue-400">
                   <AiOutlineLinkedin size={24} />
                 </a>
-                <a
-                  href="#"
-                  className="text-green-500 hover:text-green-400 transition-colors"
-                >
+                <a href="#" className="text-green-500 hover:text-green-400">
                   <AiOutlineWhatsApp size={24} />
                 </a>
-                <a
-                  href="#"
-                  className="text-red-500 hover:text-red-400 transition-colors"
-                >
+                <a href="#" className="text-red-500 hover:text-red-400">
                   <AiOutlineYoutube size={24} />
                 </a>
               </div>
@@ -245,7 +233,6 @@ const ContactPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Consultation Button */}
             <div className="mb-8">
               <button className="w-full py-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all transform hover:scale-105 font-bold">
                 Schedule a Free Consultation
@@ -332,7 +319,6 @@ const ContactPage: React.FC = () => {
       </main>
 
       {/* Footer */}
-
       <footer className="relative z-20 bg-gray-950/70 backdrop-blur-lg border-t border-gray-800/50 text-white py-16 mt-20">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -371,8 +357,7 @@ const ContactPage: React.FC = () => {
                     label: "Mobile App Development",
                     href: "/services/mobile-development",
                   },
-
-                  { label: "IT Consulting", href: "/services/it-consulting" }, // Replaces Cloud Solutions
+                  { label: "IT Consulting", href: "/services/it-consulting" },
                 ],
               },
               {
@@ -421,6 +406,7 @@ const ContactPage: React.FC = () => {
               </motion.div>
             ))}
           </div>
+
           <motion.div
             className="mt-12 pt-10 border-t border-gray-800/50 text-center text-gray-400 text-sm"
             variants={textVariants}

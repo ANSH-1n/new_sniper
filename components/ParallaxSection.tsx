@@ -1,13 +1,41 @@
-// 'use-client';
 
-// import { MouseParallax} from "react-just-parallax";
+
+// // components/ParallaxSection.tsx
+// 'use client';
+
+// import { MouseParallax } from "react-just-parallax";
 // import React from "react";
 
 // const ParallaxSection: React.FC = () => {
-//     return (
-//         <MouseParallax strength={0.1}>
-//         </MouseParallax>
-//     );
+//   return (
+//     <MouseParallax strength={0.1}>
+//       {/* Add content here if needed */}
+//     </MouseParallax>
+//   );
+// };
+
+// export default ParallaxSection;
+
+
+
+
+
+
+
+
+
+
+// // components/ParallaxSection.tsx
+// 'use client';
+
+// import { MouseParallax } from "react-just-parallax";
+
+// const ParallaxSection: React.FC = () => {
+//   return (
+//     <MouseParallax strength={0.1}>
+//       {/* Add content here if needed */}
+//     </MouseParallax>
+//   );
 // };
 
 // export default ParallaxSection;
@@ -22,16 +50,24 @@
 
 
 
-
-
-
-// components/ParallaxSection.tsx
 'use client';
 
-import { MouseParallax } from "react-just-parallax";
-import React from "react";
+import { useEffect, useState } from 'react';
+import { MouseParallax } from 'react-just-parallax';
 
 const ParallaxSection: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // Only set the component to be visible after mounting on the client
+    setIsClient(true);
+  }, []);
+
+  // If not client-side yet, return null (or a loading spinner if you prefer)
+  if (!isClient) {
+    return null; // Or you can return a <div>Loading...</div> if needed
+  }
+
   return (
     <MouseParallax strength={0.1}>
       {/* Add content here if needed */}

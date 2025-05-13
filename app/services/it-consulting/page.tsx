@@ -2,10 +2,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronRight, Shield, Cloud, List, Server, Lock, Code, ArrowRight, CheckCircle } from 'lucide-react';
 import * as THREE from 'three';
-import Link from 'next/link';
 
 // Types
 interface TimelineItemProps {
@@ -21,6 +20,9 @@ interface ServiceCardProps {
   title: string;
   description: string;
   color: string;
+  onHover: () => void;
+  onHoverEnd: () => void;
+  isHovered: boolean;
 }
 
 interface FeatureCardProps {
@@ -34,120 +36,17 @@ interface StatCardProps {
   label: string;
 }
 
-// Navbar Component
-const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navItems = [
-    { href: '#', label: 'Home', active: true },
-    { href: '#services', label: 'Services' },
-    { href: '#methodology', label: 'Methodology' },
-    { href: '#about', label: 'About' },
-    { href: '#contact', label: 'Contact' },
-  ];
-
-  return (
-    <motion.nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-gray-900/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <div className="flex items-center text-white">
-              <Code className="text-blue-500 mr-2" size={28} />
-              <span className="text-xl font-bold">
-                Sniper<span className="text-blue-500">Coders</span>
-              </span>
-            </div>
-          </div>
-          <div className="hidden md:flex items-center space-x-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
-                  item.active ? 'text-blue-400' : 'text-gray-200 hover:text-blue-400'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <motion.button
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Book Consultation
-            </motion.button>
-          </div>
-          <div className="md:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-200 hover:text-white"
-            >
-              <List size={24} />
-            </button>
-          </div>
-        </div>
-      </div>
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            className="md:hidden bg-gray-900/95 backdrop-blur-md"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
-                    item.active
-                      ? 'bg-blue-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-            <div className="pt-4 pb-3 border-t border-gray-700 px-2">
-              <motion.button
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Book Consultation
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
-  );
+// Animation variants
+const textVariants = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
 };
+
+// Navbar Component
+
 
 // Main App Component
 const App: React.FC = () => {
-  const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -199,46 +98,29 @@ const App: React.FC = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      particlesGeometry.dispose();
+      particlesMaterial.dispose();
+      renderer.dispose();
     };
   }, []);
 
   // Scroll-based animations
   const { scrollYProgress } = useScroll();
   const backgroundOpacity = useTransform(scrollYProgress, [0, 0.5], [0.3, 0.8]);
-  const headerScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05]);
+  // const headerScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05]);
 
-  // Intersection Observer for section animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible((prev) => ({
-              ...prev,
-              [entry.target.id]: true,
-            }));
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    document.querySelectorAll('.animate-section').forEach((section) => {
-      observer.observe(section);
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  // Note: The IntersectionObserver and 'isVisible' state were removed
+  // as Framer Motion's 'whileInView' handles visibility-triggered animations.
 
   return (
     <div ref={containerRef} className="relative min-h-screen bg-gradient-to-b from-gray-900 to-blue-950 text-white overflow-hidden font-sans">
+      {/* <Navbar /> */}
       {/* Three.js Canvas */}
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0 opacity-30" style={{ opacity: backgroundOpacity.get() }} />
-
-      <Hero headerScale={headerScale} />
+      {/* <Hero headerScale={headerScale} /> */}
       <ConsultingMethodology />
-      <ServiceOfferings />
-      <WhyPartnerWithUs />
+      <ServiceOfferings /> 
+       <WhyPartnerWithUs />
       <StatsSection />
       <CallToAction />
       <Footer />
@@ -247,68 +129,7 @@ const App: React.FC = () => {
 };
 
 // Hero Component
-const Hero: React.FC<{ headerScale: any }> = ({ headerScale }) => {
-  return (
-    <motion.section
-      className="relative pt-24 pb-32 overflow-hidden animate-section"
-      id="hero"
-      style={{ scale: headerScale }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center md:text-left">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-900 text-blue-300 mb-6"
-          >
-            <Code size={16} className="mr-2" /> Transform Your Technology Strategy
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-6"
-          >
-            Strategic IT Leadership
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-3 max-w-2xl mx-auto md:mx-0 text-xl text-gray-300 sm:mt-5 mb-10"
-          >
-            Bridge the gap between business goals and technology execution with solutions that{' '}
-            <span className="text-blue-400 font-medium">innovate</span>,{' '}
-            <span className="text-purple-400 font-medium">secure</span>, and{' '}
-            <span className="text-cyan-400 font-medium">accelerate</span> your digital future.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-5 max-w-md mx-auto md:mx-0 sm:flex sm:justify-center md:justify-start gap-3"
-          >
-            <motion.button
-              className="flex items-center justify-center px-8 py-3 rounded-lg text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started <ArrowRight className="ml-2" size={20} />
-            </motion.button>
-            <motion.button
-              className="flex items-center justify-center px-8 py-3 rounded-lg text-base font-medium text-blue-400 bg-gray-800 hover:bg-gray-700 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Learn More
-            </motion.button>
-          </motion.div>
-        </div>
-      </div>
-    </motion.section>
-  );
-};
+
 
 // Consulting Methodology Component
 const ConsultingMethodology: React.FC = () => {
@@ -469,7 +290,7 @@ const ServiceOfferings: React.FC = () => {
 };
 
 // Service Card Component
-const ServiceCard: React.FC<ServiceCardProps & { onHover: () => void; onHoverEnd: () => void; isHovered: boolean }> = ({
+const ServiceCard: React.FC<ServiceCardProps> = ({
   icon,
   title,
   description,
@@ -663,7 +484,7 @@ const StatCard: React.FC<StatCardProps> = ({ number, label }) => {
 const CallToAction: React.FC = () => {
   return (
     <section className="py-16 relative overflow-hidden animate-section" id="cta">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -688,118 +509,76 @@ const CallToAction: React.FC = () => {
   );
 };
 
-
- const textVariants = {
-    initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
-  };
-
-  
 // Footer Component
 const Footer: React.FC = () => {
   return (
+    <footer className="relative z-20 bg-gray-950/70 backdrop-blur-lg border-t border-gray-800/50 text-white py-16 mt-20">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <motion.div variants={textVariants} initial="initial" animate="animate">
+            <div className="flex items-center mb-6">
+              <div className="text-3xl font-extrabold">
+                <span className="bg-clip-text bg-gradient-to-r text-white animate-gradient">SniperCoders</span>
+              </div>
+            </div>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              We specialize in turning visionary ideas into reality. Our expertise helps businesses transform aspirations
+              into tangible solutions, paving the way for future growth.
+            </p>
+          </motion.div>
 
-   <footer className="relative z-20 bg-gray-950/70 backdrop-blur-lg border-t border-gray-800/50 text-white py-16 mt-20">
-             <div className="container mx-auto px-6">
-               <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                 <motion.div
-                   variants={textVariants}
-                   initial="initial"
-                   animate="animate"
-                 >
-                   <div className="flex items-center mb-6">
-                     <div className="text-3xl font-extrabold">
-                       <span className="bg-clip-text bg-gradient-to-r text-white animate-gradient">
-                         SniperCoders
-                       </span>
-                     </div>
-                   </div>
-                   <p className="text-gray-300 text-sm leading-relaxed">
-                     We specialize in turning visionary ideas into reality. Our
-                     expertise helps businesses transform aspirations into tangible
-                     solutions, paving the way for future growth.
-                   </p>
-                 </motion.div>
-   
-                 {[
-                   {
-                     title: "Our Services",
-                     items: [
-                       {
-                         label: "Custom Software Dev",
-                         href: "/services/custom-software-development",
-                       },
-                       {
-                         label: "Website Development",
-                         href: "/services/web-development",
-                       },
-                       {
-                         label: "Mobile App Development",
-                         href: "/services/mobile-development",
-                       },
-   
-                       { label: "IT Consulting", href: "/services/it-consulting" }, // Replaces Cloud Solutions
-                     ],
-                   },
-                   {
-                     title: "Useful Links",
-                     items: [
-                       { label: "Terms of Service", href: "/terms" },
-                       { label: "Privacy Policy", href: "/privacy" },
-                       { label: "Refund Policy", href: "/refund" },
-                    
-                     ],
-                   },
-                   {
-                     title: "Get In Touch",
-                     items: [
-                       { label: "About Us", href: "/about" },
-                       { label: "Contact Us", href: "/contact" },
-                       { label: "FAQs", href: "/faqs" },
-                       { label: "Testimonials", href: "/showcase" },
-                     ],
-                   },
-                 ].map((section, idx) => (
-                   <motion.div
-                     key={idx}
-                     variants={textVariants}
-                     initial="initial"
-                     animate="animate"
-                   >
-                     <h3 className="text-lg font-semibold mb-6 text-gray-200">
-                       {section.title}
-                     </h3>
-                     <ul className="space-y-3">
-                       {section.items.map((item, i) => (
-                         <motion.li
-                           key={i}
-                           whileHover={{ x: 8 }}
-                           transition={{ duration: 0.3 }}
-                         >
-                           <a
-                             href={item.href}
-                             className="text-gray-300 hover:text-cyan-400 transition-colors text-sm"
-                           >
-                             {item.label}
-                           </a>
-                         </motion.li>
-                       ))}
-                     </ul>
-                   </motion.div>
-                 ))}
-               </div>
-               <motion.div
-                 className="mt-12 pt-10 border-t border-gray-800/50 text-center text-gray-400 text-sm"
-                 variants={textVariants}
-                 initial="initial"
-                 animate="animate"
-               >
-                 © {new Date().getFullYear()} SniperCoders Global Technologies. All
-                 rights reserved.
-               </motion.div>
-             </div>
-           </footer>
-
+          {[
+            {
+              title: 'Our Services',
+              items: [
+                { label: 'Custom Software Dev', href: '/services/custom-software-development' },
+                { label: 'Website Development', href: '/services/web-development' },
+                { label: 'Mobile App Development', href: '/services/mobile-development' },
+                { label: 'IT Consulting', href: '/services/it-consulting' },
+              ],
+            },
+            {
+              title: 'Useful Links',
+              items: [
+                { label: 'Terms of Service', href: '/terms' },
+                { label: 'Privacy Policy', href: '/privacy' },
+                { label: 'Refund Policy', href: '/refund' },
+              ],
+            },
+            {
+              title: 'Get In Touch',
+              items: [
+                { label: 'About Us', href: '/about' },
+                { label: 'Contact Us', href: '/contact' },
+                { label: 'FAQs', href: '/faqs' },
+                { label: 'Testimonials', href: '/showcase' },
+              ],
+            },
+          ].map((section, idx) => (
+            <motion.div key={idx} variants={textVariants} initial="initial" animate="animate">
+              <h3 className="text-lg font-semibold mb-6 text-gray-200">{section.title}</h3>
+              <ul className="space-y-3">
+                {section.items.map((item, i) => (
+                  <motion.li key={i} whileHover={{ x: 8 }} transition={{ duration: 0.3 }}>
+                    <a href={item.href} className="text-gray-300 hover:text-cyan-400 transition-colors text-sm">
+                      {item.label}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+        <motion.div
+          className="mt-12 pt-10 border-t border-gray-800/50 text-center text-gray-400 text-sm"
+          variants={textVariants}
+          initial="initial"
+          animate="animate"
+        >
+          © {new Date().getFullYear()} SniperCoders Global Technologies. All rights reserved.
+        </motion.div>
+      </div>
+    </footer>
   );
 };
 
