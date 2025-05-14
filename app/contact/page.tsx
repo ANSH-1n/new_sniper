@@ -199,7 +199,7 @@ const ContactPage: React.FC = () => {
                 <h3 className="font-bold text-base sm:text-lg">Office</h3>
                 <p className="text-gray-400 text-sm sm:text-base">SniperCoders</p>
                 <p className="text-gray-400 text-sm sm:text-base">
-                  Near Old Hospital, Chenani, Jammu and Kashmir-182141
+                  Hebbal , Bangalore-560024
                 </p>
               </div>
             </div>
@@ -217,7 +217,7 @@ const ContactPage: React.FC = () => {
                   </a>
                 </p>
                 <p className="text-gray-400 text-sm sm:text-base">
-                  Typically replies within 24 hours
+                  Typically replies within 2 hours
                 </p>
               </div>
             </div>
@@ -242,7 +242,7 @@ const ContactPage: React.FC = () => {
             </div>
 
             {/* Map - Fully Responsive */}
-            <div className="mt-6 md:mt-8">
+            {/* <div className="mt-6 md:mt-8">
               <div className="bg-gray-700 rounded-lg overflow-hidden relative pb-[56.25%] h-0">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3441.6605313655365!2d75.2840861!3d33.041876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391cfa6d35f2cc3b%3A0xadb05b30c7dfdc2f!2sChenani%2C%20Jammu%20and%20Kashmir%20182141!5e0!3m2!1sen!2sin!4v1683886319272!5m2!1sen!2sin"
@@ -264,7 +264,34 @@ const ContactPage: React.FC = () => {
                   View larger map
                 </a>
               </p>
-            </div>
+            </div> */}
+
+
+<div className="mt-6 md:mt-8">
+  <div className="bg-gray-700 rounded-lg overflow-hidden relative pb-[56.25%] h-0">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.0467169434654!2d77.58934147418017!3d13.03616268729443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae18f1fd3a6e8d%3A0x746bd5f7f2751bb5!2sHebbal%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1715765340000!5m2!1sen!2sin"
+      className="absolute top-0 left-0 w-full h-full"
+      style={{ border: 0 }}
+      allowFullScreen={false}
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="Hebbal Bangalore Location Map"
+    />
+  </div>
+  <p className="text-xs text-center py-2 text-gray-400">
+    <a
+      href="https://www.google.com/maps/place/Hebbal,+Bengaluru,+Karnataka"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:text-blue-400"
+    >
+      View larger map
+    </a>
+  </p>
+</div>
+
+
           </div>
 
           {/* Right Column - Form */}
