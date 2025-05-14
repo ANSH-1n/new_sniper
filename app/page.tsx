@@ -396,53 +396,9 @@ export default function Home(): React.ReactElement {
                 transition={{ duration: 0.8 }}
                 className="relative z-10 p-6 text-center lg:text-left"
               >
-                {/* <div className="pl-8">
-                  <div className="flex flex-row">
-                    <motion.h1 
-                      className="text-8xl font-bold mb-10 pt-10 ml-10 whitespace-nowrap transition-transform duration-200 glowing-text"
-                      animate={{
-                        textShadow: [
-                          "0 0 5px rgba(255,0,255,0.5), 0 0 15px rgba(255,0,255,0.3)",
-                          "0 0 10px rgba(0,255,255,0.5), 0 0 30px rgba(0,255,255,0.3)",
-                          "0 0 5px rgba(255,0,255,0.5), 0 0 15px rgba(255,0,255,0.3)"
-                        ]
-                      }}
-                      transition={{
-                        duration: 5,
-                        repeat: Infinity,
-                        repeatType: "reverse"
-                      }}
-                      whileHover={{ 
-                        scale: 1.1, 
-                        transition: { duration: 0.3 }
-                      }}
-                    >
-                      SniperCoders
-                    </motion.h1>
-                  </div>
+               
 
-                  <motion.p 
-                    className="text-xl mb-5 ml-10"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.8 }}
-                  >
-                    We craft powerful digital experiences to boost your brand&apos;s
-                    visibility and engagement. As a results-driven software
-                    agency, we specialize in delivering custom web and mobile
-                    applications, scalable backend systems, and seamless user
-                    experiences tailored to your business goals. Whether you&apos;re
-                    a startup or an enterprise, our team of expert developers,
-                    designers, and strategists is here to turn your ideas into
-                    impactful digital solutions that drive growth, efficiency,
-                    and customer loyalty.
-                  </motion.p>
-
-
-                  
-                </div> */}
-
-                <div className="w-full px-4 md:px-8 lg:px-16">
+                <div className="w-full px-4 md:px-8 lg:px-16 mt-0">
                   <div className="flex flex-col items-center lg:items-start">
                     <h1
                       className={`font-bold mb-6 pt-6 text-center lg:text-left transition-transform duration-200 
@@ -749,11 +705,3 @@ export default function Home(): React.ReactElement {
     </div>
   );
 }
-
-
-
-
-
-
-
-

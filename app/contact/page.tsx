@@ -1,3 +1,4 @@
+
 "use client";
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
@@ -14,6 +15,15 @@ const ContactPage: React.FC = () => {
     fullName: "",
     email: "",
     phone: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({
+    type: null,
     message: "",
   });
 
@@ -74,10 +84,50 @@ const ContactPage: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add form submission logic here
+    setLoading(true);
+    setSubmitStatus({ type: null, message: "" });
+    
+    try {
+      // Create a server endpoint to handle email sending
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          recipientEmail: 'anshjamwal10102003@gmail.com', // This will be used by the API route
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSubmitStatus({
+          type: "success",
+          message: "Message sent successfully! We'll get back to you soon.",
+        });
+        // Clear form
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        throw new Error(data.message || 'Failed to send email');
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Failed to send message. Please try again later or contact us directly.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const textVariants = {
@@ -234,6 +284,19 @@ const ContactPage: React.FC = () => {
 
             <div className="text-center text-gray-400 mb-6 md:mb-8 text-sm sm:text-base">OR</div>
 
+            {/* Status messages */}
+            {submitStatus.type && (
+              <div 
+                className={`mb-4 p-3 rounded-lg text-sm ${
+                  submitStatus.type === "success" 
+                    ? "bg-green-800/50 text-green-200" 
+                    : "bg-red-800/50 text-red-200"
+                }`}
+              >
+                {submitStatus.message}
+              </div>
+            )}
+
             {/* Contact Form */}
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
@@ -249,6 +312,7 @@ const ContactPage: React.FC = () => {
                   placeholder="John Doe"
                   className="w-full p-2 sm:p-3 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   required
+                  disabled={loading}
                 />
               </div>
 
@@ -266,6 +330,7 @@ const ContactPage: React.FC = () => {
                     placeholder="john@company.com"
                     className="w-full p-2 sm:p-3 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                     required
+                    disabled={loading}
                   />
                 </div>
                 <div className="w-full sm:w-1/2">
@@ -280,6 +345,7 @@ const ContactPage: React.FC = () => {
                     onChange={handleChange}
                     placeholder="+91 12345 67890"
                     className="w-full p-2 sm:p-3 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -297,14 +363,18 @@ const ContactPage: React.FC = () => {
                   rows={5}
                   className="w-full p-2 sm:p-3 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   required
+                  disabled={loading}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 sm:py-4 bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 font-bold text-sm sm:text-base"
+                className={`w-full py-3 sm:py-4 bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors transform hover:scale-105 font-bold text-sm sm:text-base ${
+                  loading ? 'opacity-75 cursor-not-allowed' : ''
+                }`}
+                disabled={loading}
               >
-                Send Message
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
