@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-// Removed unused imports: Image, AnimatePresence, Link
 import ParallaxSection from "@/components/ParallaxSection";
 import Agent from "../components/Agent";
 import ServiceCard from "../components/ServiceCard";
@@ -543,7 +542,7 @@ export default function Home(): React.ReactElement {
             <div className="animated-orb orb-secondary"></div>
             <div className="animated-orb orb-tertiary"></div>
             <div className="particles-container">
-              {[...Array(30)].map((_, i) => (
+              {/* {[...Array(30)].map((_, i) => (
                 <div
                   key={i}
                   className="particle"
@@ -553,7 +552,7 @@ export default function Home(): React.ReactElement {
                     animationDuration: `${Math.random() * 15 + 10}s`,
                   }}
                 ></div>
-              ))}
+              ))} */}
             </div>
           </div>
 
