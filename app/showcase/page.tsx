@@ -282,7 +282,7 @@ const SniperCodersPortfolio: React.FC = () => {
   const categories: ProjectCategory[] = useMemo(() => [
     { id: "all", name: "All", color: "from-cyan-500 to-blue-600", hoverColor: "from-cyan-600 to-blue-700" },
     { id: "academy-website", name: "Academy Website", color: "from-purple-500 to-indigo-600", hoverColor: "from-purple-600 to-indigo-700" },
-    { id: "agency-website", name: "Agency Website", color: "from-amber-500 to-orange-600", hoverColor: "from-amber-600 to-orange-700" },
+    // { id: "agency-website", name: "Agency Website", color: "from-amber-500 to-orange-600", hoverColor: "from-amber-600 to-orange-700" },
     { id: "articles-website", name: "Articles Website", color: "from-emerald-500 to-teal-600", hoverColor: "from-emerald-600 to-teal-700" },
     { id: "blog-website", name: "Blog Website", color: "from-rose-500 to-pink-600", hoverColor: "from-rose-600 to-pink-700" },
     { id: "business-portfolio-website", name: "Business Portfolio Website", color: "from-violet-500 to-fuchsia-600", hoverColor: "from-violet-600 to-fuchsia-700" },
@@ -362,15 +362,7 @@ const SniperCodersPortfolio: React.FC = () => {
       tags: ["Academy Website", "Web Application"],
       href: "https://www.airborne.org.in/"
     },
-    {
-      id: "kodevedic",
-      title: "KodeVedic",
-      image: "/images/ctc25zsgzsq8kbgh6ztb[1] copy.png", 
-      categories: ["web-application", "agency-website"],
-      description: "Elevate Your Expertise with Coding Skills.",
-      tags: ["Web Application", "Agency Website"],
-      href: "https://www.kodevedic.com/"
-    },
+ 
     {
       id: "your-project-code",
       title: "Your Project Code",
@@ -407,15 +399,7 @@ const SniperCodersPortfolio: React.FC = () => {
       tags: ["Portfolio Website", "Agency Website"],
       href: "https://www.jainjaivik.com/"
     },
-    {
-      id: "mash-digital",
-      title: "Mash Digital",
-      image: "/images/mash[1].png", 
-      categories: ["agency-website", "web-application"],
-      description: "Elevate Your Expertise with Coding Skills.",
-      tags: ["Agency Website", "Web Application"],
-      href: "https://mashdigital.com/"
-    },
+   
     {
       id: "shakthi-nakshatra",
       title: "Shakthi Nakshatra-Book",

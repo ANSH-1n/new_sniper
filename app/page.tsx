@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -333,7 +334,7 @@ export default function Home(): React.ReactElement {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0a2a] text-white overflow-hidden pt-12">
+    <div className="min-h-screen flex flex-col bg-[#0a0a2a] text-white overflow-hidden pt-0">
       <h1 className="bg-black text-black">
         <span>जयः बाबा कालवीर जी</span>
       </h1>
@@ -373,7 +374,7 @@ export default function Home(): React.ReactElement {
       </div>
 
       <div className="relative z-10">
-        <section className="flex flex-col lg:flex-row items-center justify-between px-6 py-20 relative">
+        <section className="flex flex-col lg:flex-row items-center justify-between px-6 py-10 relative">
           <div className="lg:w-3/4 w-full relative flex justify-between">
             <div className="relative w-[600px] h-[700px] lg:w-[800px] lg:h-[900px]">
               <motion.div
@@ -395,8 +396,6 @@ export default function Home(): React.ReactElement {
                 transition={{ duration: 0.8 }}
                 className="relative z-10 p-6 text-center lg:text-left"
               >
-               
-
                 <div className="w-full px-4 md:px-8 lg:px-16 mt-0">
                   <div className="flex flex-col items-center lg:items-start">
                     <h1
@@ -415,16 +414,12 @@ export default function Home(): React.ReactElement {
                     <p
                       className={`text-base md:text-lg lg:text-xl mb-5 text-center lg:text-left max-w-3xl`}
                     >
-                      We craft powerful digital experiences to boost your
-                      brand&apos;s visibility and engagement. As a
-                      results-driven software agency, we specialize in
-                      delivering custom web and mobile applications, scalable
-                      backend systems, and seamless user experiences tailored to
-                      your business goals. Whether you&apos;re a startup or an
-                      enterprise, our team of expert developers, designers, and
-                      strategists is here to turn your ideas into impactful
-                      digital solutions that drive growth, efficiency, and
-                      customer loyalty.
+                 We&apos;re a software company that helps businesses grow with smart digital solutions. At SniperCoders, we create custom websites, mobile apps, and powerful backend systems that are easy to use and designed to fit your goals.
+
+Whether you&apos;re just starting out or running a large company, our team of skilled developers, designers, and strategists is here to bring your ideas to life. We focus on building smooth, modern experiences that boost your online presence, improve efficiency, and keep your customers coming back.
+
+Let&apos;s build something great together!
+
                     </p>
                   </div>
 
@@ -500,7 +495,7 @@ export default function Home(): React.ReactElement {
         </section>
 
         {/* Services with enhanced animations */}
-        <section className="py-16 px-4 sm:px-8 relative">
+        <section className="py-8 px-4 sm:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -542,7 +537,7 @@ export default function Home(): React.ReactElement {
             <div className="animated-orb orb-secondary"></div>
             <div className="animated-orb orb-tertiary"></div>
             <div className="particles-container">
-              {/* {[...Array(30)].map((_, i) => (
+              {[...Array(30)].map((_, i) => (
                 <div
                   key={i}
                   className="particle"
@@ -552,7 +547,7 @@ export default function Home(): React.ReactElement {
                     animationDuration: `${Math.random() * 15 + 10}s`,
                   }}
                 ></div>
-              ))} */}
+              ))}
             </div>
           </div>
 
