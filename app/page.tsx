@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -414,12 +413,17 @@ export default function Home(): React.ReactElement {
                     <p
                       className={`text-base md:text-lg lg:text-xl mb-5 text-center lg:text-left max-w-3xl`}
                     >
-                 We&apos;re a software company that helps businesses grow with smart digital solutions. At SniperCoders, we create custom websites, mobile apps, and powerful backend systems that are easy to use and designed to fit your goals.
-
-Whether you&apos;re just starting out or running a large company, our team of skilled developers, designers, and strategists is here to bring your ideas to life. We focus on building smooth, modern experiences that boost your online presence, improve efficiency, and keep your customers coming back.
-
-Let&apos;s build something great together!
-
+                      We&apos;re a software company that helps businesses grow
+                      with smart digital solutions. At SniperCoders, we create
+                      custom websites, mobile apps, and powerful backend systems
+                      that are easy to use and designed to fit your goals.
+                      Whether you&apos;re just starting out or running a large
+                      company, our team of skilled developers, designers, and
+                      strategists is here to bring your ideas to life. We focus
+                      on building smooth, modern experiences that boost your
+                      online presence, improve efficiency, and keep your
+                      customers coming back. Let&apos;s build something great
+                      together!
                     </p>
                   </div>
 
