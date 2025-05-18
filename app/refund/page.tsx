@@ -643,8 +643,6 @@
 
 
 
-
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -652,15 +650,15 @@ import Link from "next/link";
 import * as THREE from "three";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-type Bubble = THREE.Mesh & {
+interface Bubble extends THREE.Mesh {
   velocityY: number;
   sway: number;
-  scale: number;
+  initialScale: number;
   color: THREE.Color;
-};
+}
 
-const RefundPolicy = () => {
-  const [mounted, setMounted] = useState(false);
+const RefundPolicy: React.FC = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const canvasRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const threeRef = useRef<{ cleanup: () => void } | null>(null);
@@ -676,103 +674,119 @@ const RefundPolicy = () => {
     setMounted(true);
 
     if (canvasRef.current && !threeRef.current) {
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true,
-      });
-
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
-      canvasRef.current.appendChild(renderer.domElement);
-
-      const bubbles: Bubble[] = [];
-      const bubbleGeometry = new THREE.SphereGeometry(1, 32, 32);
-      const bubbleColors = [
-        new THREE.Color(0x60a5fa),
-        new THREE.Color(0x93c5fd),
-        new THREE.Color(0xbae6fd),
-      ];
-
-      for (let i = 0; i < 150; i++) {
-        const scale = 0.05 + Math.random() * 0.15;
-        const bubbleMaterial = new THREE.MeshBasicMaterial({
-          color: bubbleColors[Math.floor(Math.random() * bubbleColors.length)],
-          transparent: true,
-          opacity: 0.3 + Math.random() * 0.4,
-        });
-
-        const bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial) as Bubble;
-        bubble.scale.set(scale, scale, scale);
-        bubble.position.set(
-          (Math.random() - 0.5) * 25,
-          -12 + Math.random() * 6,
-          (Math.random() - 0.5) * 15
+      try {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
         );
-        bubble.velocityY = 0.03 + Math.random() * 0.05;
-        bubble.sway = Math.random() * 0.03;
-        bubble.color = bubbleMaterial.color;
-        bubbles.push(bubble);
-        scene.add(bubble);
-      }
-
-      camera.position.z = 12;
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-
-        bubbles.forEach((bubble, index) => {
-          bubble.position.y += bubble.velocityY;
-          bubble.position.x +=
-            Math.sin(Date.now() * 0.001 + index * 0.1) * bubble.sway;
-          bubble.position.z +=
-            Math.cos(Date.now() * 0.002 + index * 0.2) * bubble.sway * 0.5;
-
-          // Subtle scale pulse
-          const pulse = Math.sin(Date.now() * 0.003 + index) * 0.02 + 1;
-          bubble.scale.set(
-            bubble.scale.x * pulse,
-            bubble.scale.y * pulse,
-            bubble.scale.z * pulse
-          );
-
-          if (bubble.position.y > 12) {
-            bubble.position.y = -12;
-            bubble.position.x = (Math.random() - 0.5) * 25;
-            bubble.position.z = (Math.random() - 0.5) * 15;
-          }
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true,
         });
 
-        renderer.render(scene, camera);
-      };
-
-      animate();
-
-      const handleResize = () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      };
+        renderer.setClearColor(0x000000, 0);
+        canvasRef.current.appendChild(renderer.domElement);
 
-      window.addEventListener("resize", handleResize);
+        const bubbles: Bubble[] = [];
+        const bubbleGeometry = new THREE.SphereGeometry(1, 32, 32);
+        const bubbleColors = [
+          new THREE.Color(0x60a5fa),
+          new THREE.Color(0x93c5fd),
+          new THREE.Color(0xbae6fd),
+        ];
 
-      threeRef.current = {
-        cleanup: () => {
-          window.removeEventListener("resize", handleResize);
-          if (canvasRef.current) {
-            canvasRef.current.removeChild(renderer.domElement);
-          }
-          bubbles.forEach((bubble) => scene.remove(bubble));
-          bubbleGeometry.dispose();
-          bubbles.forEach((bubble) => bubble.material.dispose());
-        },
-      };
+        for (let i = 0; i < 150; i++) {
+          const scale = 0.05 + Math.random() * 0.15;
+          const bubbleMaterial = new THREE.MeshBasicMaterial({
+            color: bubbleColors[Math.floor(Math.random() * bubbleColors.length)],
+            transparent: true,
+            opacity: 0.3 + Math.random() * 0.4,
+          });
+
+          const mesh = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+          const bubble: Bubble = Object.assign(mesh, {
+            velocityY: 0.03 + Math.random() * 0.05,
+            sway: Math.random() * 0.03,
+            initialScale: scale,
+            color: bubbleMaterial.color,
+          });
+
+          bubble.scale.set(scale, scale, scale);
+          bubble.position.set(
+            (Math.random() - 0.5) * 25,
+            -12 + Math.random() * 6,
+            (Math.random() - 0.5) * 15
+          );
+          bubbles.push(bubble);
+          scene.add(bubble);
+        }
+
+        camera.position.z = 12;
+
+        let animationFrameId: number;
+        const animate = () => {
+          animationFrameId = requestAnimationFrame(animate);
+
+          bubbles.forEach((bubble, index) => {
+            bubble.position.y += bubble.velocityY;
+            bubble.position.x +=
+              Math.sin(Date.now() * 0.001 + index * 0.1) * bubble.sway;
+            bubble.position.z +=
+              Math.cos(Date.now() * 0.002 + index * 0.2) * bubble.sway * 0.5;
+
+            const pulse = Math.sin(Date.now() * 0.003 + index) * 0.02 + 1;
+            bubble.scale.set(
+              bubble.initialScale * pulse,
+              bubble.initialScale * pulse,
+              bubble.initialScale * pulse
+            );
+
+            if (bubble.position.y > 12) {
+              bubble.position.y = -12;
+              bubble.position.x = (Math.random() - 0.5) * 25;
+              bubble.position.z = (Math.random() - 0.5) * 15;
+            }
+          });
+
+          renderer.render(scene, camera);
+        };
+
+        animate();
+
+        const handleResize = () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        threeRef.current = {
+          cleanup: () => {
+            window.removeEventListener("resize", handleResize);
+            cancelAnimationFrame(animationFrameId);
+            if (canvasRef.current) {
+              canvasRef.current.removeChild(renderer.domElement);
+            }
+            bubbles.forEach((bubble) => scene.remove(bubble));
+            bubbleGeometry.dispose();
+            bubbles.forEach((bubble) => {
+              if (Array.isArray(bubble.material)) {
+                bubble.material.forEach((material) => material.dispose());
+              } else {
+                bubble.material.dispose();
+              }
+            });
+            renderer.dispose();
+          },
+        };
+      } catch (error) {
+        console.error("Failed to initialize Three.js scene:", error);
+      }
     }
 
     return () => {
@@ -782,7 +796,7 @@ const RefundPolicy = () => {
     };
   }, []);
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: string): void => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -1031,7 +1045,7 @@ const RefundPolicy = () => {
                   2.4 IoT Integration Services
                 </h3>
                 <p className="mb-3 text-gray-300">
-                  <strong>Consultation:</strong> Free initial technical assessment
+                  <strong>Initial Consultation:</strong> Free initial technical assessment
                 </p>
                 <p className="mb-6 text-gray-300">
                   <strong>Refund Conditions:</strong>
@@ -1096,7 +1110,7 @@ const RefundPolicy = () => {
                 <h3 className="text-2xl font-medium text-blue-300 mb-4">
                   4.1 Non-Refundable Services
                 </h3>
-                <ul className="list-disc ml-8 space-y- ataxia: 3 mb-6 text-gray-300">
+                <ul className="list-disc ml-8 space-y-3 mb-6 text-gray-300">
                   <li>Consulting hours</li>
                   <li>Training sessions</li>
                   <li>Customizations with specialized requirements</li>
@@ -1189,7 +1203,7 @@ const RefundPolicy = () => {
                 <p className="mb-3 text-gray-300">
                   <strong>Email:</strong>{" "}
                   <a
-                    href="mailto:snipercoders25@gmail.com"
+                    href="mailto:support@snipercoders.com"
                     className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
                     support@snipercoders.com
